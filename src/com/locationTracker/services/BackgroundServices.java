@@ -1,5 +1,7 @@
 package com.locationTracker.services;
 
+import com.locationTracker.main.App;
+
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -26,10 +28,10 @@ public class BackgroundServices {
 		AlarmManager alarmManager = (AlarmManager) context
 				.getSystemService(Context.ALARM_SERVICE);
 		alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,
-				System.currentTimeMillis(), 1000 * 60,
+				System.currentTimeMillis(), App.FETCH_LOCATION_FREQUENCY,
 				startServicePendingIntent);
 		alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,
-				System.currentTimeMillis(), 1000 * 60 * 5,
+				System.currentTimeMillis(), App.SYNC_DATA_FREQUENCY,
 				dataSyncServicePendingIntent);
 	}
 }
