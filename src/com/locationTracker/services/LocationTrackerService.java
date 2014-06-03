@@ -3,7 +3,6 @@ package com.locationTracker.services;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
-import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -42,19 +41,26 @@ public class LocationTrackerService extends Service implements LocationListener 
 		if (!isServiceRunning) {
 			isServiceRunning = true;
 			Log.d(LOGTAG, "onStartCommand >>> " + LOGTAG);
-
-			Criteria criteria = new Criteria();
-			criteria.setAccuracy(Criteria.ACCURACY_COARSE);
 			locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-			String bestProvider = locationManager.getBestProvider(criteria,
-					true);
 
-			if (bestProvider != null) {
-				Log.d(LOGTAG, "Selected Provider >>> " + bestProvider);
-				locationManager.requestLocationUpdates(bestProvider, 1000, 1,
-						this);
+			/*
+			 * Criteria criteria = new Criteria();
+			 * criteria.setAccuracy(Criteria.ACCURACY_COARSE); String
+			 * bestProvider = locationManager.getBestProvider(criteria, true);
+			 * 
+			 * if (bestProvider != null) { Log.d(LOGTAG,
+			 * "Selected Provider >>> " + bestProvider);
+			 * locationManager.requestLocationUpdates(bestProvider, 1000, 1,
+			 * this); } else { Log.d(LOGTAG, "All Providers Disabled"); }
+			 */
+
+			if (locationManager
+					.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
+				locationManager.requestLocationUpdates(
+						LocationManager.NETWORK_PROVIDER,
+						App.FETCH_LOCATION_FREQUENCY, 0, this);
 			} else {
-				Log.d(LOGTAG, "All Providers Disabled");
+				Log.d(LOGTAG, "No location providers enabled");
 			}
 		}
 
