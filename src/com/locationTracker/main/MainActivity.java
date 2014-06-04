@@ -13,8 +13,7 @@ import com.locationTracker.services.BackgroundServices;
 
 public class MainActivity extends Activity {
 
-	TextView latTextView;
-	TextView longTextView;
+	TextView latTextView, longTextView, accuracyTextView, providerTextView;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -22,6 +21,8 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.main_activity);
 		latTextView = (TextView) findViewById(R.id.latTextView);
 		longTextView = (TextView) findViewById(R.id.longTextView);
+		accuracyTextView = (TextView) findViewById(R.id.accuracyTextView);
+		providerTextView = (TextView) findViewById(R.id.providerTextView);
 		this.registerReceiver(updateLocationReceiver, new IntentFilter(
 				"LOCATION_UPDATED"));
 
@@ -47,8 +48,13 @@ public class MainActivity extends Activity {
 				latTextView.setText(intent.getExtras().getDouble(
 						App.LATITUDE_KEY, 0.0)
 						+ "");
-			}
+				accuracyTextView.setText(intent.getExtras().getFloat(
+						App.ACCURACY_KEY, 0.0f)
+						+ "");
+				providerTextView.setText(intent.getExtras().getString(
+						App.PROVIDER_KEY));
 
+			}
 		}
 	};
 }

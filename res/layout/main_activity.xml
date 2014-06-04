@@ -23,4 +23,24 @@
         android:textColor="@android:color/black"
         android:textSize="32sp" />
 
+    <TextView
+        android:id="@+id/accuracyTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/longTextView"
+        android:layout_centerHorizontal="true"
+        android:text="@string/accuracy"
+        android:textColor="@android:color/black"
+        android:textSize="32sp" />
+
+    <TextView
+        android:id="@+id/providerTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/accuracyTextView"
+        android:layout_centerHorizontal="true"
+        android:text="@string/accuracy"
+        android:textColor="@android:color/black"
+        android:textSize="32sp" />
+
 </RelativeLayout>

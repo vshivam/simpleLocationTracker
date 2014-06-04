@@ -1,11 +1,16 @@
 package com.locationTracker.services;
 
-import com.locationTracker.main.App;
-
 import android.app.AlarmManager;
+import android.app.Notification;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.app.NotificationCompat;
+
+import com.fci.locationTracker.R;
+import com.locationTracker.main.App;
+import com.locationTracker.main.MainActivity;
 
 public class BackgroundServices {
 
@@ -33,5 +38,29 @@ public class BackgroundServices {
 		alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,
 				System.currentTimeMillis(), App.SYNC_DATA_FREQUENCY,
 				dataSyncServicePendingIntent);
+		createGenericNotif("Dengue Tracker",
+				"Services running in the background !");
 	}
+
+	private void createGenericNotif(String title, String message) {
+
+		NotificationCompat.Builder builder = new NotificationCompat.Builder(
+				context);
+		builder.setAutoCancel(true);
+		Intent intent = new Intent(context, MainActivity.class);
+		intent.setAction(Intent.ACTION_MAIN);
+		intent.addCategory(Intent.CATEGORY_LAUNCHER);
+		builder.setContentIntent(PendingIntent.getActivity(context, 0, intent,
+				0));
+		builder.setContentTitle(title);
+		builder.setContentText(message);
+		builder.setSmallIcon(R.drawable.ic_action_web_site);
+		Notification notification = builder.build();
+		notification.flags = Notification.FLAG_ONGOING_EVENT;
+		NotificationManager manager = (NotificationManager) context
+				.getSystemService(Context.NOTIFICATION_SERVICE);
+		manager.notify(2, notification);
+
+	}
+
 }

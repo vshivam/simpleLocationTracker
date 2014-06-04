@@ -3,5 +3,6 @@
     <string name="app_name">LocationTracker</string>
     <string name="latitude">Latitude</string>
     <string name="longitude">Longitude</string>
+    <string name="accuracy">Accuracy</string>
 
 </resources>

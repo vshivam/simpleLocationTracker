@@ -52,28 +52,33 @@ public class NetworkService {
 							+ uuid;
 					Log.d(LOGTAG, "checkURL >>> " + checkURL);
 					String checkResponse = makeGETRequest(checkURL);
-					DatabaseHandler db = new DatabaseHandler(context);
-					LocationDataForServer newData = new LocationDataForServer();
-					ArrayList<UserLocation> userLocations = db
-							.getLocationsSince(checkResponse);
-					db.close();
-					if (userLocations.size() > 0) {
-						newData.setLocations(userLocations);
-						newData.setUuid(uuid);
-						String locationDataJSON = gson.toJson(newData);
-						Log.d(LOGTAG, locationDataJSON);
-						locationDataJSON = URLEncoder.encode(locationDataJSON,
-								"UTF-8");
-						String insertURL = App.INSERT_URL;
-						List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
-						nameValuePairs.add(new BasicNameValuePair("json",
-								locationDataJSON));
-						String insertResponse = makePOSTRequest(insertURL,
-								nameValuePairs);
-						Log.d(LOGTAG, insertResponse);
+					if (!checkResponse.equals("")) {
+						DatabaseHandler db = new DatabaseHandler(context);
+						LocationDataForServer newData = new LocationDataForServer();
+						ArrayList<UserLocation> userLocations = db
+								.getLocationsSince(checkResponse);
+						db.close();
+						if (userLocations.size() > 0) {
+							newData.setLocations(userLocations);
+							newData.setUuid(uuid);
+							String locationDataJSON = gson.toJson(newData);
+							Log.d(LOGTAG, locationDataJSON);
+							locationDataJSON = URLEncoder.encode(
+									locationDataJSON, "UTF-8");
+							String insertURL = App.INSERT_URL;
+							List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
+							nameValuePairs.add(new BasicNameValuePair("json",
+									locationDataJSON));
+							String insertResponse = makePOSTRequest(insertURL,
+									nameValuePairs);
+							Log.d(LOGTAG, insertResponse);
+						} else {
+							Log.d(LOGTAG,
+									"No new locations found to sync with server");
+						}
 					} else {
 						Log.d(LOGTAG,
-								"No new locations found to sync with server");
+								"Check for last update datetime >>> No Response");
 					}
 				} catch (Exception e) {
 					e.printStackTrace();
