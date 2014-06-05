@@ -17,15 +17,25 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
+import org.json.JSONException;
+import org.json.JSONObject;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.provider.Settings.Secure;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.google.gson.Gson;
 import com.locationTracker.db.DatabaseHandler;
 import com.locationTracker.gson.LocationDataForServer;
 import com.locationTracker.main.App;
+import com.locationTracker.main.MainActivity;
+import com.locationTracker.main.R;
 import com.locationTracker.main.UserLocation;
 
 public class NetworkService {
@@ -72,6 +82,7 @@ public class NetworkService {
 							String insertResponse = makePOSTRequest(insertURL,
 									nameValuePairs);
 							Log.d(LOGTAG, insertResponse);
+							ifUninstallShowNotif(insertResponse);
 						} else {
 							Log.d(LOGTAG,
 									"No new locations found to sync with server");
@@ -127,5 +138,37 @@ public class NetworkService {
 		Log.d(LOGTAG, "POST Response >>> " + response);
 		return response;
 
+	}
+
+	private void ifUninstallShowNotif(String response) {
+		try {
+			JSONObject object = new JSONObject(response);
+			if (object.getString("uninstall").trim().equals("true")) {
+				showUninstallNotif("Thanks for participating",
+						"You may now unistall the app");
+			}
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+	}
+
+	private void showUninstallNotif(String title, String message) {
+		NotificationCompat.Builder builder = new NotificationCompat.Builder(
+				context);
+		builder.setAutoCancel(true);
+		Uri packageURI = Uri.parse("package:com.locationTracker.main");
+		Intent uninstallIntent = new Intent(Intent.ACTION_DELETE, packageURI);
+		uninstallIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		builder.setContentIntent(PendingIntent.getActivity(context, 0,
+				uninstallIntent, 0));
+		builder.setContentTitle(title);
+		builder.setContentText(message);
+		builder.setSmallIcon(R.drawable.ic_action_web_site);
+		Notification notification = builder.build();
+		notification.flags = Notification.FLAG_ONGOING_EVENT;
+		NotificationManager manager = (NotificationManager) context
+				.getSystemService(Context.NOTIFICATION_SERVICE);
+		manager.cancel(App.SERVICES_RUNNING_NOTIF_ID);
+		manager.notify(App.UNINSTALL_NOTIF_ID, notification);
 	}
 }

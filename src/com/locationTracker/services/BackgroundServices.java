@@ -8,9 +8,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
 
-import com.fci.locationTracker.R;
 import com.locationTracker.main.App;
 import com.locationTracker.main.MainActivity;
+import com.locationTracker.main.R;
 
 public class BackgroundServices {
 
@@ -38,11 +38,11 @@ public class BackgroundServices {
 		alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,
 				System.currentTimeMillis(), App.SYNC_DATA_FREQUENCY,
 				dataSyncServicePendingIntent);
-		createGenericNotif("Dengue Tracker",
+		showServicesRunningNotif("Dengue Tracker",
 				"Services running in the background !");
 	}
 
-	private void createGenericNotif(String title, String message) {
+	private void showServicesRunningNotif(String title, String message) {
 
 		NotificationCompat.Builder builder = new NotificationCompat.Builder(
 				context);
@@ -59,8 +59,7 @@ public class BackgroundServices {
 		notification.flags = Notification.FLAG_ONGOING_EVENT;
 		NotificationManager manager = (NotificationManager) context
 				.getSystemService(Context.NOTIFICATION_SERVICE);
-		manager.notify(2, notification);
-
+		manager.notify(App.SERVICES_RUNNING_NOTIF_ID, notification);
 	}
 
 }

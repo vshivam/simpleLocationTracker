@@ -52,8 +52,7 @@ public class LocationTrackerService extends Service implements LocationListener 
 					if (locationManager
 							.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
 						locationManager.requestLocationUpdates(
-								LocationManager.GPS_PROVIDER,
-								App.FETCH_LOCATION_FREQUENCY, 0,
+								LocationManager.GPS_PROVIDER, 0, 0,
 								LocationTrackerService.this);
 						Log.d(LOGTAG, "Requesting location updates from GPS");
 					} else {
@@ -107,41 +106,21 @@ public class LocationTrackerService extends Service implements LocationListener 
 	@Override
 	public void onProviderDisabled(String provider) {
 		Log.d(LOGTAG, "Provider Disabled >>> " + provider);
-		switch (provider) {
-		case LocationManager.GPS_PROVIDER:
-			isGPSEnabled = false;
-			break;
-		case LocationManager.NETWORK_PROVIDER:
-			isNetworkEnabled = false;
-			break;
-		default:
-			break;
-		}
 	}
 
 	@Override
 	public void onProviderEnabled(String provider) {
 		Log.d(LOGTAG, "Provider Enabled >>> " + provider);
-		switch (provider) {
-		case LocationManager.GPS_PROVIDER:
-			isGPSEnabled = true;
-			break;
-		case LocationManager.NETWORK_PROVIDER:
-			isNetworkEnabled = true;
-			break;
-		default:
-			break;
-		}
-	}
-
-	@Override
-	public void onStatusChanged(String arg0, int arg1, Bundle arg2) {
-
 	}
 
 	@Override
 	public IBinder onBind(Intent arg0) {
 		return null;
+	}
+
+	@Override
+	public void onStatusChanged(String provider, int status, Bundle extras) {
+		Log.d(LOGTAG, "Status changed >>> " + provider);
 	}
 
 }
