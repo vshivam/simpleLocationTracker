@@ -1,11 +1,9 @@
-package com.locationTracker.services;
+package com.locationTracker.backgroundServices;
 
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 import android.util.Log;
-
-import com.locationTracker.networkServices.NetworkService;
 
 public class DataSyncService extends Service {
 

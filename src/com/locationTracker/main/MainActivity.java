@@ -8,7 +8,7 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.widget.TextView;
 
-import com.locationTracker.services.BackgroundServices;
+import com.locationTracker.backgroundServices.BackgroundServices;
 
 public class MainActivity extends Activity {
 

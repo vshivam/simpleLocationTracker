@@ -1,4 +1,4 @@
-package com.locationTracker.networkServices;
+package com.locationTracker.backgroundServices;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;

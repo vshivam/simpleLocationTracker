@@ -6,6 +6,7 @@ import android.util.Log;
 public class App extends Application {
 	public static final int SERVICES_RUNNING_NOTIF_ID = 0;
 	public static final int UNINSTALL_NOTIF_ID = 1;
+	public static final String PREFS_NAME = "SETTINGS";
 	private String LOGTAG = getClass().getSimpleName();
 	public static int ADD_GPS_LISTENER_DELAY = 60 * 1000;
 	public static int FETCH_LOCATION_FREQUENCY = 1000 * 60;

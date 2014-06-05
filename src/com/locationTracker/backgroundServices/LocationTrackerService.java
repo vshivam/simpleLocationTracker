@@ -1,4 +1,4 @@
-package com.locationTracker.services;
+package com.locationTracker.backgroundServices;
 
 import android.app.Service;
 import android.content.Context;

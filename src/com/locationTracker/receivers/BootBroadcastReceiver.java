@@ -1,6 +1,6 @@
 package com.locationTracker.receivers;
 
-import com.locationTracker.services.BackgroundServices;
+import com.locationTracker.backgroundServices.BackgroundServices;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
