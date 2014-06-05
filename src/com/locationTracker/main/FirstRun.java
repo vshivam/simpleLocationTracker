@@ -13,16 +13,15 @@ import android.widget.Button;
 import android.widget.Spinner;
 
 public class FirstRun extends Activity {
+	SharedPreferences settings;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		SharedPreferences settings = getSharedPreferences(App.PREFS_NAME, 0);
+		settings = getSharedPreferences(App.PREFS_NAME, 0);
 		boolean profileUpdated = settings.getBoolean("profileUpdated", false);
 		if (profileUpdated) {
-			Intent mainActivity = new Intent(FirstRun.this, MainActivity.class);
-			startActivity(mainActivity);
-			finish();
+			startMainActivity();
 		}
 		setContentView(R.layout.first_run);
 		Spinner spinner = (Spinner) findViewById(R.id.spinner);
@@ -41,19 +40,18 @@ public class FirstRun extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				// Fetch and Submit Data
-				Intent mainActivity = new Intent(FirstRun.this,
-						MainActivity.class);
-				finish();
-				startActivity(mainActivity);
-
-				SharedPreferences settings = getSharedPreferences(
-						App.PREFS_NAME, 0);
+				startMainActivity();
 				SharedPreferences.Editor editor = settings.edit();
 				editor.putBoolean("profileUpdated", true);
 				editor.commit();
 			}
 		});
+	}
+
+	private void startMainActivity() {
+		Intent mainActivity = new Intent(FirstRun.this, MainActivity.class);
+		finish();
+		startActivity(mainActivity);
 	}
 
 }
